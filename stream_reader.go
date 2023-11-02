@@ -22,6 +22,7 @@ type streamable interface {
 type streamReader[T streamable] struct {
 	emptyMessagesLimit uint
 	isFinished         bool
+	checkExt           bool
 
 	reader         *bufio.Reader
 	response       *http.Response
@@ -110,4 +111,8 @@ func (stream *streamReader[T]) unmarshalError() (errResp *ErrorResponse) {
 
 func (stream *streamReader[T]) Close() {
 	stream.response.Body.Close()
+}
+
+func (stream *streamReader[T]) Reader() *bufio.Reader {
+	return stream.reader
 }
