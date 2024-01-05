@@ -184,7 +184,7 @@ func TestHandleErrorResp(t *testing.T) {
 func TestClientReturnsRequestBuilderErrors(t *testing.T) {
 	config := DefaultConfig(test.GetTestToken())
 	client := NewClientWithConfig(config)
-	client.requestBuilder = &failingRequestBuilder{}
+	client.config.RequestBuilder = &failingRequestBuilder{}
 	ctx := context.Background()
 
 	type TestCase struct {
@@ -377,7 +377,7 @@ func TestClientReturnsRequestBuilderErrors(t *testing.T) {
 func TestClientReturnsRequestBuilderErrorsAddtion(t *testing.T) {
 	config := DefaultConfig(test.GetTestToken())
 	client := NewClientWithConfig(config)
-	client.requestBuilder = &failingRequestBuilder{}
+	client.config.RequestBuilder = &failingRequestBuilder{}
 	ctx := context.Background()
 	_, err := client.CreateCompletion(ctx, CompletionRequest{Prompt: 1})
 	if !errors.Is(err, ErrCompletionRequestPromptTypeNotSupported) {
