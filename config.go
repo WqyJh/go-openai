@@ -3,6 +3,8 @@ package openai
 import (
 	"net/http"
 	"regexp"
+
+	utils "github.com/sashabaranov/go-openai/internal"
 )
 
 const (
@@ -33,6 +35,7 @@ type ClientConfig struct {
 	APIVersion           string                    // required when APIType is APITypeAzure or APITypeAzureAD
 	AzureModelMapperFunc func(model string) string // replace model to azure deployment name func
 	HTTPClient           *http.Client
+	RequestBuilder       utils.RequestBuilder
 
 	EmptyMessagesLimit uint
 }
@@ -47,6 +50,7 @@ func DefaultConfig(authToken string) ClientConfig {
 		HTTPClient: &http.Client{},
 
 		EmptyMessagesLimit: defaultEmptyMessagesLimit,
+		RequestBuilder:     utils.NewRequestBuilder(),
 	}
 }
 
@@ -64,6 +68,7 @@ func DefaultAzureConfig(apiKey, baseURL string) ClientConfig {
 		HTTPClient: &http.Client{},
 
 		EmptyMessagesLimit: defaultEmptyMessagesLimit,
+		RequestBuilder:     utils.NewRequestBuilder(),
 	}
 }
 
